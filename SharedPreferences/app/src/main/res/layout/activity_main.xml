@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rL"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/lL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SELECCIONA UN COLOR"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="30dp"/>
+
+        <RadioGroup
+            android:id="@+id/rBGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/rBRojo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ROJO"/>
+            <RadioButton
+                android:id="@+id/rBAzul"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AZUL"/>
+            <RadioButton
+                android:id="@+id/rBAmarillo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AMARILLO"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

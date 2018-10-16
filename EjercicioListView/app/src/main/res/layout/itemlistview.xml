@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dip"
+    android:columnCount="2"
+    android:rowCount="2" >
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_rowSpan="2"
+        android:layout_marginRight="2dip"
+        android:contentDescription="TODO"
+
+        android:src="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/nombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toRightOf="@id/img"
+        android:gravity="center_vertical"
+        android:text="EJEMPLO DE ITEM DE LISTVIEW"
+        android:textSize="16sp" />
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/descripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/nombre"
+        android:layout_toRightOf="@+id/img"
+        android:maxLines="2"
+        android:text="Descripcion del item del ListView"
+        android:textSize="12sp" />
+
+
+</RelativeLayout>
