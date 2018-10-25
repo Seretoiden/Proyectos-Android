@@ -60,6 +60,7 @@ public class MainActivity extends Activity {
 
         });
 
+
         eT.addTextChangedListener(new TextWatcher() {
 
             @Override
