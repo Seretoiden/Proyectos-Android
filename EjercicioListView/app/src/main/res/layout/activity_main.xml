@@ -12,20 +12,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="10sp">
+
         <EditText
             android:id="@+id/buscador"
             android:layout_weight=".70"
             android:lines="1"
             android:maxLength="15"
             android:layout_width="0dp"
-            android:hint="Busca tu equipo de fútbol favorito..."
+            android:hint="@string/searchText"
             android:layout_height="wrap_content" />
         <Button
             android:id="@+id/buscadorBoton"
             android:layout_weight=".20"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="BUSCAR" />
+            style="@style/buttonStyle" />
 
     </LinearLayout>
 

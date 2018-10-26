@@ -27,8 +27,8 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/img"
         android:gravity="center_vertical"
-        android:text="EJEMPLO DE ITEM DE LISTVIEW"
-        android:textSize="16sp" />
+        android:text="@string/title"
+        android:textSize="@dimen/title" />
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
@@ -40,8 +40,8 @@
         android:layout_below="@+id/nombre"
         android:layout_toRightOf="@+id/img"
         android:maxLines="2"
-        android:text="Descripcion del item del ListView"
-        android:textSize="12sp" />
+        android:text="@string/desc"
+        android:textSize="@dimen/desc" />
 
 
 </RelativeLayout>

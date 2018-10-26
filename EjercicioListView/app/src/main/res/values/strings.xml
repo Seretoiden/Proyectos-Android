@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">EjercicioListView</string>
+    <string name="desc">DESCRIPCION AQUI</string>
+    <string name="search">BUSCAR</string>
+    <string name="searchText">Escribe y busca tu equipo favorito...</string>
+    <string name="title">NOMBRE DE EQUIPO</string>
 </resources>
