@@ -85,7 +85,7 @@ public class MainActivity extends Activity {
     }
 
     public static void anadirEquipos(){
-        Equipo barcelona = new Equipo("Barcelona FC", "DESCRIPCION AQUI", 1200000, R.mipmap.barcelona);
+        Equipo barcelona = new Equipo("Barcelona FC", "DESCRIPCION AQUI", 1200000, R.mipmap.barcelona_logo);
         Equipo madrid = new Equipo("Real Madrid FC", "DESCRIPCION AQUI", 1200000, R.mipmap.madrid_logo);
         Equipo realSociedad = new Equipo("RealSociedad FC", "DESCRIPCION AQUI", 1200000, R.mipmap.realsociedad_logo);
 
