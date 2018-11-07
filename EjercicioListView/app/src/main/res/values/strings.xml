@@ -1,7 +1,11 @@
 <resources>
-    <string name="app_name">EjercicioListView</string>
+    <string name="app_name">Equipos La Liga Santander</string>
     <string name="desc">DESCRIPCION AQUI</string>
-    <string name="search">BUSCAR</string>
+    <string name="add">+ EQUIPO</string>
     <string name="searchText">Escribe y busca tu equipo favorito...</string>
     <string name="title">NOMBRE DE EQUIPO</string>
+    <string name="titleMod">Titulo:</string>
+    <string name="descMod">Descripción:</string>
+    <string name="imgMod">Imagen:</string>
+    <string name="title_activity_second">Información</string>
 </resources>

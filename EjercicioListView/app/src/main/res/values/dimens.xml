@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="none">0dp</dimen>
+    <dimen name="margin20">20dp</dimen>
     <dimen name="title">14dp</dimen>
+    <dimen name="enorme">26dp</dimen>
     <dimen name="desc">10dp</dimen>
+    <dimen name="porc30">.30</dimen>
+    <dimen name="porc33">.33</dimen>
+    <dimen name="porc50">.50</dimen>
+    <dimen name="porc70">.70</dimen>
 </resources>

@@ -16,7 +16,9 @@ import java.util.ArrayList;
 public class AdapterEquipo extends BaseAdapter {
 
     protected Activity activity;
+    //Los items en forma de arraylist del listview
     protected ArrayList<Equipo> items;
+    //backup antes de escribir para poder luego volver a poner los originales cuando se deje en blanco el edittext
     protected ArrayList<Equipo> originalItems;
 
 
