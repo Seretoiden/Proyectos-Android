@@ -24,7 +24,7 @@
             android:hint="@string/searchText"
             android:layout_height="wrap_content" />
         <Button
-            android:id="@+id/buscadorBoton"
+            android:id="@+id/anadirEquipo"
             android:layout_weight=".20"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

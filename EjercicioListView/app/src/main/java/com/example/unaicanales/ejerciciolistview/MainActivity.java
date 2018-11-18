@@ -1,7 +1,9 @@
 package com.example.unaicanales.ejerciciolistview;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,6 +25,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ListView;
@@ -43,20 +46,32 @@ public class MainActivity extends AppCompatActivity  {
     //Equipos que tendremos guardados en memoria
     private static ArrayList<Equipo> equipos = new ArrayList<Equipo>();
     private static EditText eT;
+    private static Button anadirEquipo;
     private Bbdd bbdd = new Bbdd(this);
+    private AlertDialog.Builder builder;
+
+    private static Equipo item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        builder = new AlertDialog.Builder(this);
         setContentView(R.layout.activity_main);
         eT = (EditText) findViewById(R.id.buscador);
+        anadirEquipo = (Button) findViewById(R.id.anadirEquipo);
+
+        anadirEquipo.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                abrirInfo(null);
+            }
+        });
 
         //añadimos los equipos en memoria
         equipos = bbdd.leerEquiposDesdeBBDD();
-        System.out.println("Tsamñano: " + equipos.size());
+        System.out.println("nombre: " + equipos.get(0).getNombre());
 
-        ListView lV = (ListView) findViewById(R.id.listView);
+        final ListView lV = (ListView) findViewById(R.id.listView);
         final AdapterEquipo adapter = new AdapterEquipo(this, equipos);
 
         lV.setAdapter(adapter);
@@ -66,8 +81,28 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                Equipo item = (Equipo) parent.getItemAtPosition(position);
-                abrirInfo(item);
+                String[] colors = {"MODIFICAR", "ELIMINAR"};
+                item = (Equipo) parent.getItemAtPosition(position);
+                builder.setTitle("¿QUE ACCION DESEAS REALIZAR?");
+                builder.setItems(colors, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case 0:
+                                abrirInfo(item);
+                                break;
+
+                            case 1:
+                                bbdd.eliminar(item.getId());
+                                recargarPagina();
+
+                                break;
+                        }
+                        // the user clicked on colors[which]
+                    }
+                });
+                builder.show();
+
                 //Toast.makeText(getApplicationContext(), item.getNombre() + " SE HA HECHO CLICK", Toast.LENGTH_SHORT).show();
             }
 
@@ -97,14 +132,25 @@ public class MainActivity extends AppCompatActivity  {
 
         });
 
+    }
 
+    private void recargarPagina() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     //Metodo para abrir el segundo activity con la informacion del equipo
     public void abrirInfo(Equipo equipo) {
-        Intent intent = new Intent(this, SecondActivity.class);
-        intent.putExtra("Equipo", equipo.getId());
-        startActivity(intent);
+        if(equipo == null){
+            Intent intent = new Intent(this, SecondActivity.class);
+            startActivity(intent);
+        }else{
+            System.out.println("ID EQUIPO: " + equipo.getId());
+            Intent intent = new Intent(this, SecondActivity.class);
+            intent.putExtra("idEquipo", equipo.getId());
+            startActivity(intent);
+        }
+
     }
 
 }

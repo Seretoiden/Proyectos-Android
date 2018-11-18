@@ -8,103 +8,99 @@
     android:orientation="vertical"
     android:gravity="center">
 
+    <TextView
+        style="@style/tituloModElim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin20"
+        android:layout_marginBottom="60dp"
+        android:text="MODIFICAR:" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_weight=".10"
         android:gravity="center"
+        android:layout_marginBottom="30dp"
         android:orientation="vertical">
 
         <TextView
             style="@style/tituloModElim"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin20"
+            android:gravity="center"
             android:text="@string/titleMod" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="20dp"
-            android:layout_weight=".30"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/textviewStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/titleMod" />
-        </LinearLayout>
-
         <EditText
+            android:id="@+id/eTTitulo"
             style="@style/editTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textSize="@dimen/enorme"
             android:maxLines="1" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".10"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:layout_marginHorizontal="20dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".30"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginHorizontal="20dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                style="@style/textviewStyle"
-                android:text="@string/descMod"
-                android:gravity="left"/>
-        </LinearLayout>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/tituloModElim"
+            android:text="@string/descMod"
+            android:gravity="center"/>
         <EditText
+            android:id="@+id/eTDesc"
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="wrap_content"
             style="@style/editTextStyle"
-            android:maxLines="1"
+            android:textSize="@dimen/enorme"
+            android:maxLines="4"
             android:gravity="center"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".20"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:layout_marginHorizontal="20dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".30"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_margin="20dp">
+
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                style="@style/textviewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/tituloModElim"
                 android:text="@string/imgMod"
                 android:gravity="left"/>
-        </LinearLayout>
+
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spImagen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_margin="@dimen/margin20"/>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".04">
+
+        <Button
+            android:id="@+id/bSave"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="@dimen/margin20"
+            android:layout_height="wrap_content"
+            android:text="GUARDAR"/>
+
+
+    </LinearLayout>
 
 </LinearLayout>

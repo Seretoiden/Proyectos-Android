@@ -13,7 +13,7 @@ public class Equipo {
     private int imagen;
 
     public Equipo() {
-        super();
+
     }
 
     public Equipo(int id, String nombre, String descripcion, int dorsal, int imagen) {
@@ -21,6 +21,7 @@ public class Equipo {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.dorsal = dorsal;
         this.imagen = imagen;
     }
 
@@ -63,5 +64,6 @@ public class Equipo {
     public void setImagen(int imagen) {
         this.imagen = imagen;
     }
+
 
 }

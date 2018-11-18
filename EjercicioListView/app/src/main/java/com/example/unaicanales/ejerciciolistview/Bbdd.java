@@ -33,8 +33,6 @@ public class Bbdd extends SQLiteOpenHelper{
             "4, " + R.mipmap.realsociedad_logo + "), (6, 'Willian DaSilva', 'Barcelona es una ciudad española, capital de la comunidad autónoma de Cataluña, de la comarca del Barcelonés y de la provincia homónima.', " +
             "12, " + R.mipmap.realsociedad_logo + ");";
 
-    private static final String TABLE_DEPARTMENTS = "Departamentos";
-    private static final String TABLE_EMPLOYEES = "Empleados";
 
     public Bbdd(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -57,7 +55,6 @@ public class Bbdd extends SQLiteOpenHelper{
 
     public ArrayList<Equipo> leerEquiposDesdeBBDD() {
         ArrayList<Equipo> equipos = new ArrayList<Equipo>();
-        Equipo nuevo = new Equipo();
 
         String[] cols = new String[] {"id", "nombre", "descripcion", "dorsal", "imagen"};
         Cursor mCursor = getReadableDatabase().query(true, "Equipos",cols,null
@@ -66,24 +63,79 @@ public class Bbdd extends SQLiteOpenHelper{
             mCursor.moveToFirst();
         }
 
-        for(mCursor.moveToFirst(); !mCursor.isAfterLast(); mCursor.moveToNext()) {
+        int posArray = 0;
+
+        for(mCursor.moveToFirst(); posArray < mCursor.getCount(); mCursor.moveToNext()) {
+            Equipo nuevo = new Equipo();
             // The Cursor is now set to the right position
             nuevo.setId(Integer.parseInt(mCursor.getString(0)));
             nuevo.setNombre(mCursor.getString(1));
             nuevo.setDescripcion(mCursor.getString(2));
-            nuevo.setId(Integer.parseInt(mCursor.getString(3)));
-            nuevo.setId(Integer.parseInt(mCursor.getString(4)));
+            nuevo.setDorsal(Integer.parseInt(mCursor.getString(3)));
+            nuevo.setImagen(Integer.parseInt(mCursor.getString(4)));
 
             System.out.println("nombre: " + nuevo.getNombre());
-            equipos.add(nuevo);
+            equipos.add(posArray, nuevo);
 
+            posArray++;
         }
-        System.out.println(equipos.size());
+        System.out.println("nombre: " + equipos.get(0).getNombre());
 
         return equipos;
     }
 
+    public Equipo buscarEquipo(int idEquipo){
+        String[] cols = new String[] {"id", "nombre", "descripcion", "dorsal", "imagen"};
+
+        Cursor mCursor = getReadableDatabase().query("Equipos", cols,"id=?", new String[]{ String.valueOf(idEquipo) },
+                null, null, null);
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+
+        Equipo equipo = new Equipo();
+        // The Cursor is now set to the right position
+        equipo.setId(Integer.parseInt(mCursor.getString(0)));
+        equipo.setNombre(mCursor.getString(1));
+        equipo.setDescripcion(mCursor.getString(2));
+        equipo.setDorsal(Integer.parseInt(mCursor.getString(3)));
+        equipo.setImagen(Integer.parseInt(mCursor.getString(4)));
+
+        return equipo;
+    }
+
     public void nuevoEquipo(Equipo equipo) {
+        int id = 0;
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT MAX(id) FROM Equipos;", null);
+        if(cursor == null){
+            System.out.println("ERROR EN EL CURSOR");
+        }else{
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                id = cursor.getInt(0) + 1;
+            }
+            equipo.setId(id);
+            getWritableDatabase().insert("Equipos", null, nuevoEquipoValues(equipo));
+        }
+
+    }
+
+    public void modificarEquipo(Equipo equipo){
+        System.out.println("MODIFICAMOS A " + equipo.getNombre());
+        getWritableDatabase().update("Equipos", nuevoEquipoValues(equipo), "id=?", new String[]{ String.valueOf(equipo.getId()) });
+    }
+
+    public void eliminar(int idEquipo){
+        System.out.println("ELIMINAMOS A " + idEquipo);
+        getWritableDatabase().delete("Equipos","id=?", new String[]{ String.valueOf(idEquipo) });
+    }
+
+   /* public void consultarId(){
+        getReadableDatabase().query();
+    }*/
+
+    public ContentValues nuevoEquipoValues(Equipo equipo){
         ContentValues nuevoRegistro = new ContentValues();
         nuevoRegistro.put("id", equipo.getId());
         nuevoRegistro.put("nombre", equipo.getNombre());
@@ -91,8 +143,7 @@ public class Bbdd extends SQLiteOpenHelper{
         nuevoRegistro.put("dorsal", equipo.getDorsal());
         nuevoRegistro.put("imagen", equipo.getImagen());
 
-        //Insertamos el registro en la base de datos
-        getWritableDatabase().insert("Usuarios", null, nuevoRegistro);
+        return nuevoRegistro;
     }
 
 }

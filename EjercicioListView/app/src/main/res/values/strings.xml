@@ -4,8 +4,8 @@
     <string name="add">+ EQUIPO</string>
     <string name="searchText">Escribe y busca tu equipo favorito...</string>
     <string name="title">NOMBRE DE EQUIPO</string>
-    <string name="titleMod">Titulo:</string>
-    <string name="descMod">Descripción:</string>
-    <string name="imgMod">Imagen:</string>
+    <string name="titleMod">TITULO:</string>
+    <string name="descMod">DESCRIPCIÓN:</string>
+    <string name="imgMod">IMAGEN:</string>
     <string name="title_activity_second">Información</string>
 </resources>

@@ -28,7 +28,12 @@
     </style>
 
     <style name="tituloModElim" parent="Base.Theme.AppCompat.Light">
-        <item name="android:textSize">@dimen/title</item>
+        <item name="android:textSize">@dimen/enorme</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="editTextStyleModGuardar" parent="Base.Theme.AppCompat.Light">
+        <item name="android:textSize">@dimen/enorme</item>
         <item name="android:gravity">center</item>
     </style>
 
