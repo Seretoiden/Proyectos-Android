@@ -86,12 +86,14 @@ public class SecondActivity extends Activity {
                     if(comprobarFields()){
                         //Le damos al objeto equipo que vamos a introducir en la base de datos, el id que traemos desde la primera activity
                         nuevo.setId(equipo.getId());
+                        nuevo.setDorsal(equipo.getDorsal());
                         bbdd.modificarEquipo(nuevo);
                     }else{
                         Toast.makeText(getApplicationContext(), "DEBES RELLENAR TODOS LOS CAMPOS...", Toast.LENGTH_SHORT).show();
                     }
-                    volverAtras();
                 }
+                volverAtras();
+
             }
         });
     }

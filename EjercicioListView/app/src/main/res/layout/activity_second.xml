@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/titleMod" />
-
         <EditText
             android:id="@+id/eTTitulo"
             style="@style/editTextStyle"
@@ -39,6 +38,7 @@
             android:gravity="center"
             android:textSize="@dimen/enorme"
             android:maxLines="1" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -72,13 +72,12 @@
         android:gravity="center"
         android:layout_marginHorizontal="20dp">
 
-            <TextView
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/tituloModElim"
                 android:text="@string/imgMod"
                 android:gravity="left"/>
-
         <Spinner
             android:id="@+id/spImagen"
             android:layout_width="match_parent"
@@ -99,7 +98,6 @@
             android:layout_marginHorizontal="@dimen/margin20"
             android:layout_height="wrap_content"
             android:text="GUARDAR"/>
-
 
     </LinearLayout>
 

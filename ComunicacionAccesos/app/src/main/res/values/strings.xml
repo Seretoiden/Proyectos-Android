@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ComunicacionAccesos</string>
+    <string name="txtWifi">WIFI: </string>
+    <string name="txtBluetooth">BLUETOOTH: </string>
+    <string name="txtNFC">AQUI SE CARGARA SI TIENE NFC o NO</string>
+    <string name="txtLocalizacion">LOCALIZACION: </string>
+    <string name="txtCamara">CÁMARA: </string>
+    <string name="botonCamara">Abrir cámara</string>
+    <string name="txtLat">LATITUD:</string>
+    <string name="txtLong">LONGITUD:</string>
+    <string name="botonAct">ACTUALIZAR COORDENADAS</string>
+    <string name="indefinido">INDEFINIDO</string>
+</resources>

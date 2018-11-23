@@ -58,7 +58,7 @@ public class Bbdd extends SQLiteOpenHelper{
 
         String[] cols = new String[] {"id", "nombre", "descripcion", "dorsal", "imagen"};
         Cursor mCursor = getReadableDatabase().query(true, "Equipos",cols,null
-                , null, null, null, null, null);
+                , null, null, null, "nombre ASC", null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }

@@ -1,27 +1,16 @@
 package com.example.unaicanales.ejerciciolistview;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,15 +20,7 @@ import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -63,7 +44,6 @@ public class MainActivity extends AppCompatActivity  {
 
         anadirEquipo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                abrirInfo(null);
             }
         });
 
@@ -87,6 +67,7 @@ public class MainActivity extends AppCompatActivity  {
                 builder.setItems(colors, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //Mediante la variable 'which' conseguimos la posicion de lo clickado en las oopciones
                         switch (which){
                             case 0:
                                 abrirInfo(item);
@@ -98,12 +79,10 @@ public class MainActivity extends AppCompatActivity  {
 
                                 break;
                         }
-                        // the user clicked on colors[which]
                     }
                 });
                 builder.show();
 
-                //Toast.makeText(getApplicationContext(), item.getNombre() + " SE HA HECHO CLICK", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -134,12 +113,35 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+    //Metodo que se utiliza para inflar el menu, introduciendo el layout
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_options, menu);
+        return true;
+    }
+
+    //Opciones de los botones que hemos generado anteriormente
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.addEquipo:
+                abrirInfo(null);
+                break;
+
+            case R.id.salir:
+                finish();
+                break;
+        }
+        return true;
+    }
+
+    //Recargar la actividad
     private void recargarPagina() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
-    //Metodo para abrir el segundo activity con la informacion del equipo
+    //Metodo para abrir el segundo activity con la informacion del equipo o si mandas un null, abriremos el de crear nuevo
     public void abrirInfo(Equipo equipo) {
         if(equipo == null){
             Intent intent = new Intent(this, SecondActivity.class);
