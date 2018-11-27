@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                             // Logic to handle location object
                         }
                     }
-                });º
+                });
     }
 
     private void pedirPermisosLocalizacion(){
