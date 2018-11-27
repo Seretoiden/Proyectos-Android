@@ -8,6 +8,14 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/txtServer"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="40dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        />
+
     <EditText
         android:id="@+id/etServidor"
         android:layout_width="match_parent"

@@ -1,10 +1,13 @@
 package com.example.unaicanales.clienteservidorandroid;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.support.annotation.MainThread;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -34,8 +37,10 @@ public class Conexion extends AsyncTask {
     public static Handler handlerRecibir;
 
     private static Socket socket;
+    private static MainActivity activity;
 
-    public Conexion(Context contexto){
+    public Conexion(Context contexto, MainActivity activity){
+        this.activity = activity;
         this.contexto = contexto;
     }
 
@@ -82,7 +87,7 @@ public class Conexion extends AsyncTask {
                 try{
                     while(true){
                         while((entrada = bufferedReader.readLine()) != null) {
-                            System.out.println(entrada);
+                            activity.recuperarDatosServidor(entrada);
                         }
                     }
                 } catch (IOException e) {
