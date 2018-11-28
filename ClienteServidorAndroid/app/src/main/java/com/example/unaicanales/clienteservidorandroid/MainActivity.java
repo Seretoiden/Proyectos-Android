@@ -2,6 +2,7 @@ package com.example.unaicanales.clienteservidorandroid;
 
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private static AsyncTask task;
     private Conexion conexion;
 
-    //private Handler handlerUIThread;
+    private Handler handlerUIThread;
 
     private static EditText eTServidor;
     private static Button bComunicacion;
@@ -40,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
 
         conexion = new Conexion(getApplicationContext(), this);
         conexion.iniciarConexion();
+        handlerUIThread = new Handler(getMainLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+
+            }
+        };
 
         bComunicacion.setOnClickListener(new View.OnClickListener(){
             @Override

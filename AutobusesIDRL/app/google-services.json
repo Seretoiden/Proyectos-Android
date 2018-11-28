@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:897900550232:android:30f3ac0b120948bc",
+        "mobilesdk_app_id": "1:897900550232:android:59e9c3bb943982dd",
         "android_client_info": {
           "package_name": "com.example.unaicanales.autobusesidrl"
         }
       },
       "oauth_client": [
         {
-          "client_id": "897900550232-nft3m5lmlrnusc9a76b6otesuor1flct.apps.googleusercontent.com",
+          "client_id": "897900550232-fcr67st6tku7mdm6kb1baojqsmikj5ll.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.unaicanales.autobusesidrl",
+            "package_name": "com.example.unaicanales.autobusesidrl",
             "certificate_hash": "0d41dac9027cc50af3abb8ea26333f3249747552"
           }
         },
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "897900550232-i7hv02fetqjm9gnvi1ocgidv3l6jn4gb.apps.googleusercontent.com",
+              "client_id": "897900550232-4b02jksv1ssde1d9lg9stf9t6loug7nn.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
