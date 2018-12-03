@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.unaicanales.autobusesidrl.models.Parada;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApi;
@@ -27,13 +28,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
         implements GoogleMap.OnMyLocationButtonClickListener,
@@ -48,24 +55,23 @@ public class HomeActivity extends AppCompatActivity
     private LocationRequest mLocationRequest;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    public ArrayList<Parada> paradas;
+
 
     private GoogleMap mMap;
     private GoogleSignInAccount cliente;
-
-    private static final int REQUEST_LOCATION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-        }
+
 
         //Hacemos que la vista del mapa se acerque a la localizacion del dispositivo
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
         mapFragment.getMapAsync(this);
     }
 
@@ -83,31 +89,43 @@ public class HomeActivity extends AppCompatActivity
         return false;
     }
 
-
-
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        pintarParadas();
 
         // Add a marker in Sydney, Australia, and move the camera.
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
-
     }
 
+    public void pintarParadas(){
+        paradas = new ArrayList<>();
 
-    //AÑADIMOS EL SUPRESSLINT PORQUE SIEMPRE COMPROBAREMOS ANTES SI TENEMOS PERMISOS
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == REQUEST_LOCATION) {
-            if (permissions.length == 1 &&
-                    permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
-                    grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(getApplicationContext(), "SI NO LO HABILITAS.......", Toast.LENGTH_SHORT).show();
-            }
-        }
+        db.collection("Parada")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Parada parada = document.toObject(Parada.class);
+                                mMap.addMarker(new MarkerOptions()
+                                        .position(new LatLng(parada.getLatLong().getLatitude(), parada.getLatLong().getLongitude()))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.parada_marker))
+                                        .title(parada.getNombre())
+                                        .snippet("HOLA QUE TAL ESTA ES LA INFO")
+                                        .flat(true)
+                                );
+                                paradas.add(parada);
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
     }
 }

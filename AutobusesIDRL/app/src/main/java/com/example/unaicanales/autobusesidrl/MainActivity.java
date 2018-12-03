@@ -1,9 +1,14 @@
 package com.example.unaicanales.autobusesidrl;
 
+import android.Manifest;
 import android.accounts.Account;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -34,6 +39,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -66,16 +72,65 @@ public class MainActivity extends AppCompatActivity {
     private CollectionReference collectionReference = db.collection("Parada");
 
     private static final int REQUEST_SIGN_IN = 9001;
+    private static final int REQUEST_LOCATION_FINE = 1;
+    private static final int REQUEST_LOCATION_COARSE = 2;
 
     @Override
     public void onStart() {
         super.onStart();
-
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_FINE);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION_COARSE);
+        }
         // [START on_start_sign_in]
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         currentUser = mAuth.getCurrentUser();
+
+        if (currentUser != null) {
+            currentUser.getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            if (task.isSuccessful()) {
+                                String idToken = task.getResult().getToken();
+                                // Send token to your backend via HTTPS
+                                abrirMapas();
+                                // ...
+                            } else {
+                                // Handle error -> task.getException();
+                                Toast.makeText(getApplicationContext(), "Ha ocurrido algo raro...", Toast.LENGTH_LONG);
+                            }
+                        }
+                    });
+
+        }
         // [END on_start_sign_in]
+    }
+
+    //AÑADIMOS EL SUPRESSLINT PORQUE SIEMPRE COMPROBAREMOS ANTES SI TENEMOS PERMISOS
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode){
+            case REQUEST_LOCATION_FINE:
+                if (permissions.length == 1 &&
+                        permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
+                        grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "SI NO LO HABILITAS....... FINE", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case REQUEST_LOCATION_COARSE:
+                if (permissions.length == 1 &&
+                        permissions[0] == Manifest.permission.ACCESS_COARSE_LOCATION &&
+                        grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "SI NO LO HABILITAS....... COARSE", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+        }
     }
 
     @Override
@@ -83,14 +138,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
-
-        pintarParadas();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(MainActivity.this, gso);
+        mAuth = FirebaseAuth.getInstance();
 
         eTUsername = (EditText) findViewById(R.id.eTUsername);
         eTPassword = (EditText) findViewById(R.id.eTPassword);
@@ -163,24 +217,6 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-
-    public void pintarParadas(){
-        db.collection("Parada")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-    }
-
     private void abrirMapas(){
         Intent abrirMaps = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(abrirMaps);
@@ -228,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             abrirMapas();
                         } else {
-
+                            Log.d(TAG, "NOOOOOOOOOOOOOOOOOOO");
                         }
 
                         // ...
