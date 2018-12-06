@@ -3,16 +3,21 @@ package com.example.unaicanales.autobusesidrl;
 import android.Manifest;
 import android.accounts.Account;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.unaicanales.autobusesidrl.models.Parada;
@@ -41,6 +46,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity
         implements GoogleMap.OnMyLocationButtonClickListener,
@@ -66,8 +72,6 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-
         //Hacemos que la vista del mapa se acerque a la localizacion del dispositivo
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -87,6 +91,57 @@ public class HomeActivity extends AppCompatActivity
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
         return false;
+    }
+
+    //Metodo para mostrar y ocultar el menu de actionvar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.opciones, menu);
+        return true;
+    }
+
+    //Metodo para asignar las funciones al menu del actionbar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.idioma:
+                open_dialogo_lista_idiomas();
+                return true;
+            case R.id.salir:
+                finish();
+                return true;
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void open_dialogo_lista_idiomas(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setCancelable(true);
+        final CharSequence[] items = {"Castellano", "Euskera"};
+        alertDialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                Locale localization = null;
+                if (item == 0) localization = new Locale("es", "ES");
+                else if (item == 1) localization = new Locale("eu", "EU");
+                else{
+                    dialog.cancel();
+                    return;
+                }
+                Locale.setDefault(localization);
+                Configuration config = new Configuration();
+                config.locale = localization;
+                getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+                recreate();
+            }
+        });
+        alertDialogBuilder.create().show();
     }
 
     @SuppressLint("MissingPermission")

@@ -5,6 +5,7 @@ import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -90,20 +91,8 @@ public class MainActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
-            currentUser.getIdToken(true)
-                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                        public void onComplete(@NonNull Task<GetTokenResult> task) {
-                            if (task.isSuccessful()) {
-                                String idToken = task.getResult().getToken();
-                                // Send token to your backend via HTTPS
-                                abrirMapas();
-                                // ...
-                            } else {
-                                // Handle error -> task.getException();
-                                Toast.makeText(getApplicationContext(), "Ha ocurrido algo raro...", Toast.LENGTH_LONG);
-                            }
-                        }
-                    });
+
+
 
         }
         // [END on_start_sign_in]
@@ -132,6 +121,37 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    public class LoguearUsuarioConToken extends AsyncTask{
+
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            currentUser.getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            if (task.isSuccessful()) {
+                                String idToken = task.getResult().getToken();
+                                // Send token to your backend via HTTPS
+                                abrirMapas();
+                                // ...
+                            } else {
+                                // Handle error -> task.getException();
+                                Toast.makeText(getApplicationContext(), "Ha ocurrido algo raro...", Toast.LENGTH_LONG);
+                            }
+                        }
+                    });
+            return null;
+        };
+
+        @Override
+        protected void onProgressUpdate(Object[] values) {
+            super.onProgressUpdate(values);
+            eTPassword.visible
+        }
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
