@@ -5,4 +5,5 @@
     <string name="apiKey">AIzaSyCWUPZhUn0tbTsI8aHxJF3f-R7eisMz2Zc</string>
     <string name="txtIdioma">Seleccionar idioma</string>
     <string name="txtSalir">Salir</string>
+    <string name="signin">CONECTARSE</string>
 </resources>

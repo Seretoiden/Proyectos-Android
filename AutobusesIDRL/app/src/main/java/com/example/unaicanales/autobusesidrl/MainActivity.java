@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText eTPassword;
     private SignInButton bLoginGoogle;
     private Button bLogin;
+    private ProgressBar sPCargando;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = db.collection("Parada");
 
@@ -122,37 +124,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class LoguearUsuarioConToken extends AsyncTask{
-
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            currentUser.getIdToken(true)
-                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                        public void onComplete(@NonNull Task<GetTokenResult> task) {
-                            if (task.isSuccessful()) {
-                                String idToken = task.getResult().getToken();
-                                // Send token to your backend via HTTPS
-                                abrirMapas();
-                                // ...
-                            } else {
-                                // Handle error -> task.getException();
-                                Toast.makeText(getApplicationContext(), "Ha ocurrido algo raro...", Toast.LENGTH_LONG);
-                            }
-                        }
-                    });
-            return null;
-        };
-
-        @Override
-        protected void onProgressUpdate(Object[] values) {
-            super.onProgressUpdate(values);
-            eTPassword.visible
-        }
-    }
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,16 +137,18 @@ public class MainActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(MainActivity.this, gso);
         mAuth = FirebaseAuth.getInstance();
 
+        sPCargando = (ProgressBar)findViewById(R.id.progressBar);
         eTUsername = (EditText) findViewById(R.id.eTUsername);
         eTPassword = (EditText) findViewById(R.id.eTPassword);
         bLoginGoogle = (SignInButton) findViewById(R.id.bLoginGoogle);
         bLogin = (Button) findViewById(R.id.bLogin);
 
+        sPCargando.setVisibility(View.GONE);
+
         bLoginGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();
-
             }
         });
 
@@ -243,10 +216,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        Log.d(TAG, signInIntent.toString());
+        if(currentUser != null){
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, REQUEST_SIGN_IN);
+        }else{
 
-        startActivityForResult(signInIntent, REQUEST_SIGN_IN);
+        }
     }
 
     @Override
@@ -273,9 +248,11 @@ public class MainActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getIdToken());
 
+        sPCargando.setVisibility(View.VISIBLE);
+
         AuthCredential credential = GoogleAuthProvider.getCredential( acct.getIdToken(), acct.getIdToken());
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -287,7 +264,8 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, "NOOOOOOOOOOOOOOOOOOO");
                         }
 
-                        // ...
+                        sPCargando.setVisibility(View.GONE);
+
                     }
                 });
     }
