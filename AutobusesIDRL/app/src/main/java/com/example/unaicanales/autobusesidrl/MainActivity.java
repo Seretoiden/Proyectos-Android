@@ -147,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Object[] values) {
             super.onProgressUpdate(values);
-            eTPassword.visible
         }
     }
 
@@ -259,7 +258,6 @@ public class MainActivity extends AppCompatActivity {
             // Google Sign In was successful, authenticate with Firebase
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-
                 // Signed in successfully, show authenticated UI.
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
@@ -282,7 +280,12 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWith.Credential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            abrirMapas();
+                            String compania = user.getEmail().substring(user.getEmail().indexOf("@"), user.getEmail().length());
+                            if(compania.equals("plaiaundi.com")){
+                                Toast.makeText(MainActivity.this, "ERES UN AUTOBUS, aun no está preparada tu seccion", Toast.LENGTH_LONG);
+                            }else{
+                                abrirMapas();
+                            }
                         } else {
                             Log.d(TAG, "NOOOOOOOOOOOOOOOOOOO");
                         }
